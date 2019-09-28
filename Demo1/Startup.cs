@@ -59,6 +59,7 @@ namespace front_door_blue_green_fika_app
                         //Public = true,
                         //MaxAge = TimeSpan.FromSeconds(10)
                     };
+                context.Response.Headers["X-XSS-Protection"] = "0";
                 context.Response.Headers["Phil-UID"] = new string[] { Guid.NewGuid().ToString() };
                 context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Expires] = "-1";
                 await next();

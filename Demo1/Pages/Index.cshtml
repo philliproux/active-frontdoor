@@ -4,7 +4,12 @@
     ViewData["Title"] = "Home page";
 }
 
-    <div>Request Id: @Guid.NewGuid().ToString()</div>
-    <div>UTC: @DateTime.UtcNow</div>
+<div>Request Id: @Guid.NewGuid().ToString()</div>
+<div>UTC: @DateTime.UtcNow</div>
 
-    <h1>Welcome!</h1>
+<h1>Welcome!</h1>
+
+@if (Request.Query.ContainsKey("search"))
+{
+    <h2>Search results1 for "@Html.Raw(Request.Query["search"])"</h2>
+}

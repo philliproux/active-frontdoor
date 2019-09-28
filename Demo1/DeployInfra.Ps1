@@ -114,5 +114,5 @@ az webapp create -g $resourceGroup -p $appServicePlan -n $webApp
 # az webapp config appsettings set -g $frontDoorResourceGroup -n $webAppGreen --settings ENVIRONMENT_NAME="ENV_GREEN"
 
 # Deploy Web App from Github
-az webapp deployment source config --name $webApp --resource-group $resourceGroup --repo-url $gitrepo --branch master
+az webapp deployment source config --name $webApp --resource-group $resourceGroup --repo-url $gitrepo --branch master --manual-integration 
 # az webapp deployment source config --name $webAppGreen --resource-group $frontDoorResourceGroup --repo-url $gitrepo --branch master --manual-integration
