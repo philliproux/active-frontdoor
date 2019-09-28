@@ -1,0 +1,1 @@
+.\DeployInfra.ps1 -resourceGroup "active-frontdoor-demo-1" -webApp "active-frontdoor-demo1" -webAppUrl "active-frontdoor-demo1.azurewebsites.net" -appServicePlan "active-frontdoor-demo1-appserviceplan" -appServicePlanSize "B1"
