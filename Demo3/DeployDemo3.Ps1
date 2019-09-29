@@ -1,1 +1,3 @@
 .\DeployInfra.ps1 -resourceGroup "active-frontdoor-demo-3" -frontDoorName "active-frontdoor-demo3" -webApp "active-frontdoor-demo3" -webAppUrl "active-frontdoor-demo3.azurewebsites.net" -appServicePlan "active-frontdoor-demo3-appserviceplan" -appServicePlanSize "B1"
+
+az webapp deployment source config --name "active-frontdoor-demo3" --resource-group "active-frontdoor-demo-3" --repo-url "https://github.com/philliproux/active-frontdoor.git" --branch master --manual-integration
