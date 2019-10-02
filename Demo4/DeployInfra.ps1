@@ -27,12 +27,6 @@ param (
     # [string]$tenant = ''
 )
 
-<#
-    - .Commit Web App into repo
-    - .Test
-    - New App without session affinity
-#>
-
 Write-Host "Delete Resource Group: " $frontDoorResourceGroup
 #az group delete --name $frontDoorResourceGroup
 
@@ -117,7 +111,7 @@ Write-Host "`nFront Door Hostname:" $frontDoorFQDN
 
 # Set Web App Settings
 az webapp config appsettings set -g $frontDoorResourceGroup -n $webAppBlue --settings DEPLOYMENT_HOST_COLOR="BLUE"
-az webapp config appsettings set -g $frontDoorResourceGroup -n $webAppBlue --settings ENVIRONMENT_NAME="ENV_GREEN"
+az webapp config appsettings set -g $frontDoorResourceGroup -n $webAppBlue --settings ENVIRONMENT_NAME="ENV_BLUE"
 
 az webapp config appsettings set -g $frontDoorResourceGroup -n $webAppGreen --settings DEPLOYMENT_HOST_COLOR="GREEN"
 az webapp config appsettings set -g $frontDoorResourceGroup -n $webAppGreen --settings ENVIRONMENT_NAME="ENV_GREEN"

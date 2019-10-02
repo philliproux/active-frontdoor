@@ -20,7 +20,7 @@ param (
     [Parameter(Mandatory=$false)]
     [string]$tenant = ''
 )
-
+$(get-date)
 function ListFrontdoorBackEnds () 
 {
     az network front-door backend-pool backend list --front-door-name $frontDoorName --pool-name $frontDoorBackendPoolName --resource-group $frontDoorResourceGroup -o table
@@ -49,14 +49,6 @@ foreach ($address in $addresses) {
     Write-Host "Front door backend: $address"
 }
 
-#Check if target backend needs to be created
-$targetaddressindex = $addresses.indexOf($targetDeploymentWebApp)
-if ($targetaddressindex -eq -1) {
-    Write-Host "Adding frontdoor backend: $targetDeploymentWebApp"
-    #az network front-door backend-pool backend add --address $targetDeploymentWebApp --front-door-name $frontDoorName --pool-name $frontDoorBackendPoolName --resource-group $frontDoorResourceGroup
-    ListFrontdoorBackEnds
-}
-
 #Switch Azure Frontdoor backends between blue and green by changing priority
 Write-Host "Set current backend priority to 2" # Limitation in Azure CLI to update a backend. Workaround to remove and add backend again.
 $currentBackendAddressindex = $addresses.indexOf($currentDeploymentWebApp)
@@ -68,9 +60,11 @@ if ($currentBackendAddressindex -ge 0) {
     ListFrontdoorBackEnds
 } else 
 {
-    Write-Host "$currentDeploymentWebApp not found in list of backends to be removed"
+    Write-Host "$currentDeploymentWebApp not found in list of backends... adding backend"
+    az network front-door backend-pool backend add --address $currentDeploymentWebApp --front-door-name $frontDoorName --pool-name $frontDoorBackEndPoolName --resource-group $frontDoorResourceGroup --priority 2
 }
 
+$targetaddressindex = $addresses.indexOf($targetDeploymentWebApp)
 Write-Host "Set target backend priority to 1" # Limitation in Azure CLI to update a backend. Workaround to remove and add backend again.
 $targetBackendAddressindex = $addresses.indexOf($targetDeploymentWebApp)
 if ($targetBackendAddressindex -ge 0) {
@@ -81,9 +75,10 @@ if ($targetBackendAddressindex -ge 0) {
     ListFrontdoorBackEnds
 } else 
 {
-    Write-Host "$targetDeploymentWebApp not found in list of backends to be removed"
+    Write-Host "$targetDeploymentWebApp not found in list of backends... adding backend"
+    az network front-door backend-pool backend add --address $targetDeploymentWebApp --front-door-name $frontDoorName --pool-name $frontDoorBackEndPoolName --resource-group $frontDoorResourceGroup --priority 1
 }
-
+$(get-date)
 #Wait for Front Door Load Balancer switch of environments to go live!
 $StartTime = $(get-date)
 DO
